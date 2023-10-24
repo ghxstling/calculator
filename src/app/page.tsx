@@ -1,14 +1,17 @@
 'use client'
 
-import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, Paper, TextField, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 
 const boxPadding = 2
 const boxBorderRadius = 5
 const buttonSx = {
 	borderRadius: 50,
+	minWidth: 0,
+	minHeight: 0,
 	width: 60,
 	height: 60,
+	fontSize: 20,
 }
 
 export default function Home() {
@@ -39,10 +42,10 @@ export default function Home() {
 			>
 				Made by ghxstling
 			</Typography>
-			<Container maxWidth="xs">
+			<Container fixed maxWidth="xs">
 				{isClient ? (
 					<Paper
-						elevation={8}
+						elevation={10}
 						sx={{
 							backgroundColor: 'transparent',
 							borderRadius: boxBorderRadius,
@@ -55,10 +58,24 @@ export default function Home() {
 								backgroundColor: 'white',
 							}}
 						>
-							<Typography>Hello!</Typography>
-							<Grid></Grid>
 							<Paper
-								elevation={3}
+								elevation={4}
+								sx={{
+									backgroundColor: 'transparent',
+									borderRadius: boxBorderRadius,
+								}}
+							>
+								<Box padding={10}>
+									<Grid container>
+										<Grid item>
+											<Typography></Typography>
+										</Grid>
+									</Grid>
+								</Box>
+							</Paper>
+							<br />
+							<Paper
+								elevation={4}
 								sx={{
 									backgroundColor: 'transparent',
 									borderRadius: boxBorderRadius,
@@ -71,7 +88,87 @@ export default function Home() {
 										backgroundColor: 'lightgray',
 									}}
 								>
-									<Grid container spacing={3} columns={4} gridRow={5}>
+									<Grid container spacing={3.8} columns={4} gridRow={5}>
+										<Grid item>
+											<Button variant="contained" size="large" color="secondary" sx={buttonSx}>
+												C
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="secondary" sx={buttonSx}>
+												%
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontSize: 24 }}
+											>
+												&#247;
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontWeight: 'bold' }}
+											>
+												&#8592;
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												7
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												8
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												9
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontSize: 24 }}
+											>
+												&#215;
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												4
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												5
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												6
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontSize: 24 }}
+											>
+												&#8722;
+											</Button>
+										</Grid>
 										<Grid item>
 											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
 												1
@@ -88,8 +185,43 @@ export default function Home() {
 											</Button>
 										</Grid>
 										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontSize: 24 }}
+											>
+												+
+											</Button>
+										</Grid>
+										<Grid item>
 											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
-												4
+												0
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+												.
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="primary"
+												sx={{ ...buttonSx, fontSize: 15 }}
+											>
+												( )
+											</Button>
+										</Grid>
+										<Grid item>
+											<Button
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={{ ...buttonSx, fontSize: 24 }}
+											>
+												=
 											</Button>
 										</Grid>
 									</Grid>
