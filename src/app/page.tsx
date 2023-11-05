@@ -1,8 +1,13 @@
 'use client'
 
 import { Box, Button, Container, Grid, Paper, ThemeProvider, Typography, createTheme } from '@mui/material'
-import { teal, red } from '@mui/material/colors'
+import { grey, red } from '@mui/material/colors'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { create, all } from 'mathjs'
+
+const config = {}
+const math = create(all, config)
 
 const boxPadding = 2
 const boxBorderRadius = 5
@@ -15,36 +20,102 @@ const buttonSx = {
 	fontSize: 20,
 }
 
+const operators = ['+', '-', '\u00F7', '\u00D7']
+const brackets = ['(', ')']
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: grey['A100'],
+		},
+		secondary: {
+			main: red[800],
+		},
+	},
+})
+
 export default function Home() {
 	const [isClient, setIsClient] = useState(false)
 	const [input, setInput] = useState<string>('0')
 	const [inputHistory, setInputHistory] = useState<string>('')
 	const [calculation, setCalculation] = useState<string>('')
 
-	const operators = ['+', '-', '*', '/', '%']
-
-	const theme = createTheme({
-		palette: {
-			primary: {
-				main: teal[50],
-			},
-			secondary: {
-				main: red[800],
-			},
-		},
-	})
-
 	useEffect(() => {
 		setIsClient(true)
 	}, [])
 
+	function isValidLength() {
+		return input.length < 10
+	}
+
+	function isValidInput() {
+		try {
+			math.evaluate(input)
+			return true
+		} catch (err) {
+			return false
+		}
+	}
+
 	function addNumber(number: string) {
-		if (input === '0') {
-			console.log(true)
-			if (input.length < 10) {
-				setInput(input + number)
+		if (input.startsWith('0')) {
+			setInput(number)
+		} else {
+			if (isValidLength()) {
+				if (!isPercent()) {
+					setInput((input) => input + number)
+				}
 			}
 		}
+	}
+
+	function removeNumber() {
+		if (isOperator()) {
+			removeOperator()
+		} else {
+			if (input.length === 1 || input === '0') {
+				setInput('0')
+			} else {
+				setInput(input.slice(0, input.length - 1))
+			}
+		}
+	}
+
+	function addOperator(operator: string) {
+		if (isOperator()) {
+			removeOperator()
+		}
+		setInput((input) => input + operator)
+	}
+
+	function removeOperator() {
+		if (input.slice(input.length - 1) === '%' || input.slice(input.length - 1) === '.') {
+			setInput((input) => input.slice(0, input.length - 1))
+		} else {
+			operators.forEach((op) => {
+				if (input.slice(input.length - 1) === op) {
+					setInput((input) => input.slice(0, input.length - 1))
+				}
+			})
+		}
+	}
+
+	function isOperator() {
+		const char = input.slice(input.length - 1, input.length)
+		for (const op of operators) {
+			if (char === op) return true
+		}
+		return false
+	}
+
+	function addPercent() {
+		if (!isPercent() && !isOperator()) {
+			setInput(input + '%')
+		}
+	}
+
+	function isPercent() {
+		return input.slice(-1) === '%'
 	}
 
 	function clearInputs() {
@@ -72,7 +143,7 @@ export default function Home() {
 					paddingBottom: 5,
 				}}
 			>
-				Made by ghxstling
+				Made by <Link href="https://github.com/ghxstling">ghxstling</Link>
 			</Typography>
 			<Container fixed maxWidth="xs" sx={{ paddingBottom: 5 }}>
 				{isClient ? (
@@ -169,12 +240,19 @@ export default function Home() {
 											</Button>
 										</Grid>
 										<Grid item>
-											<Button variant="contained" size="large" color="secondary" sx={buttonSx}>
+											<Button
+												onClick={() => addPercent()}
+												variant="contained"
+												size="large"
+												color="secondary"
+												sx={buttonSx}
+											>
 												%
 											</Button>
 										</Grid>
 										<Grid item>
 											<Button
+												onClick={() => addOperator('\u00F7')}
 												variant="contained"
 												size="large"
 												color="secondary"
@@ -185,6 +263,7 @@ export default function Home() {
 										</Grid>
 										<Grid item>
 											<Button
+												onClick={() => removeNumber()}
 												variant="contained"
 												size="large"
 												color="secondary"
@@ -228,6 +307,7 @@ export default function Home() {
 										</Grid>
 										<Grid item>
 											<Button
+												onClick={() => addOperator('\u00D7')}
 												variant="contained"
 												size="large"
 												color="secondary"
@@ -271,6 +351,7 @@ export default function Home() {
 										</Grid>
 										<Grid item>
 											<Button
+												onClick={() => addOperator('-')}
 												variant="contained"
 												size="large"
 												color="secondary"
@@ -314,6 +395,7 @@ export default function Home() {
 										</Grid>
 										<Grid item>
 											<Button
+												onClick={() => addOperator('+')}
 												variant="contained"
 												size="large"
 												color="secondary"
@@ -334,7 +416,13 @@ export default function Home() {
 											</Button>
 										</Grid>
 										<Grid item>
-											<Button variant="contained" size="large" color="primary" sx={buttonSx}>
+											<Button
+												onClick={() => addOperator('.')}
+												variant="contained"
+												size="large"
+												color="primary"
+												sx={buttonSx}
+											>
 												.
 											</Button>
 										</Grid>
