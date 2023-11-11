@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, CircularProgress, Grid, Paper, Skeleton, Typography } from '@mui/material'
+import { Box, CircularProgress, Container, Grid, Paper, Skeleton, Typography } from '@mui/material'
 import { boxPadding, boxBorderRadius, buttonSx } from './css/styles'
 
 export default function Loading() {
@@ -22,79 +22,89 @@ export default function Loading() {
 	}
 
 	return (
-		<Paper
-			elevation={12}
+		<Container
+			fixed
+			maxWidth="xs"
 			sx={{
-				backgroundColor: 'transparent',
-				borderRadius: boxBorderRadius,
+				position: 'relative',
+				float: 'center',
 			}}
 		>
-			<Box
-				padding={boxPadding}
-				borderRadius={boxBorderRadius}
+			{' '}
+			<Paper
+				elevation={12}
 				sx={{
-					backgroundColor: 'gray',
+					backgroundColor: 'transparent',
+					borderRadius: boxBorderRadius,
 				}}
 			>
-				<Paper
-					elevation={6}
+				<Box
+					padding={boxPadding}
+					borderRadius={boxBorderRadius}
 					sx={{
-						backgroundColor: 'transparent',
-						borderRadius: boxBorderRadius,
+						backgroundColor: 'gray',
 					}}
 				>
-					<Box
-						padding={boxPadding + 2}
-						borderRadius={boxBorderRadius}
+					<Paper
+						elevation={6}
 						sx={{
-							backgroundColor: 'white',
+							backgroundColor: 'transparent',
+							borderRadius: boxBorderRadius,
 						}}
 					>
-						<Paper
-							elevation={8}
+						<Box
+							padding={boxPadding + 2}
+							borderRadius={boxBorderRadius}
 							sx={{
-								backgroundColor: 'transparent',
-								borderRadius: boxBorderRadius,
+								backgroundColor: 'white',
 							}}
 						>
-							<Box
-								padding={boxPadding}
-								borderRadius={boxBorderRadius}
+							<Paper
+								elevation={8}
 								sx={{
-									width: 270,
-									height: 78,
-									backgroundColor: 'lightgray',
+									backgroundColor: 'transparent',
+									borderRadius: boxBorderRadius,
 								}}
 							>
-								<br />
-								<Typography variant="h4" align="center">
-									<CircularProgress color="secondary" size={50} thickness={5} disableShrink />
-								</Typography>
-							</Box>
-						</Paper>
-					</Box>
-				</Paper>
-				<br />
-				<Paper
-					elevation={6}
-					sx={{
-						backgroundColor: 'transparent',
-						borderRadius: boxBorderRadius,
-					}}
-				>
-					<Box
-						borderRadius={boxBorderRadius}
-						padding={boxPadding}
+								<Box
+									padding={boxPadding}
+									borderRadius={boxBorderRadius}
+									sx={{
+										width: 270,
+										height: 78,
+										backgroundColor: 'lightgray',
+									}}
+								>
+									<br />
+									<Typography variant="h4" align="center">
+										<CircularProgress color="secondary" size={50} thickness={5} disableShrink />
+									</Typography>
+								</Box>
+							</Paper>
+						</Box>
+					</Paper>
+					<br />
+					<Paper
+						elevation={6}
 						sx={{
-							backgroundColor: 'lightgray',
+							backgroundColor: 'transparent',
+							borderRadius: boxBorderRadius,
 						}}
 					>
-						<Grid container spacing={3.8} columns={4} gridRow={5}>
-							{box}
-						</Grid>
-					</Box>
-				</Paper>
-			</Box>
-		</Paper>
+						<Box
+							borderRadius={boxBorderRadius}
+							padding={boxPadding}
+							sx={{
+								backgroundColor: 'lightgray',
+							}}
+						>
+							<Grid container spacing={3.8} columns={4} gridRow={5}>
+								{box}
+							</Grid>
+						</Box>
+					</Paper>
+				</Box>
+			</Paper>
+		</Container>
 	)
 }

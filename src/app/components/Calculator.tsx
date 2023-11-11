@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material'
 import { boxPadding, boxBorderRadius, buttonSx } from '../css/styles'
 import { useState, useEffect } from 'react'
 import { create, all } from 'mathjs'
@@ -132,310 +132,340 @@ export default function Calculator() {
 		}
 	}
 	return (
-		<Paper
-			elevation={12}
-			sx={{
-				backgroundColor: 'transparent',
-				borderRadius: boxBorderRadius,
-			}}
-		>
-			<Box
-				padding={boxPadding}
-				borderRadius={boxBorderRadius}
+		<>
+			<Container
+				fixed
+				maxWidth="xs"
 				sx={{
-					backgroundColor: 'gray',
+					position: 'relative',
+					float: 'center',
 				}}
 			>
 				<Paper
-					elevation={6}
+					elevation={12}
 					sx={{
 						backgroundColor: 'transparent',
 						borderRadius: boxBorderRadius,
 					}}
 				>
 					<Box
-						padding={boxPadding + 2}
+						padding={boxPadding}
 						borderRadius={boxBorderRadius}
 						sx={{
-							backgroundColor: 'white',
+							backgroundColor: 'gray',
 						}}
 					>
 						<Paper
-							elevation={8}
+							elevation={6}
 							sx={{
 								backgroundColor: 'transparent',
 								borderRadius: boxBorderRadius,
 							}}
 						>
 							<Box
-								padding={boxPadding}
+								padding={boxPadding + 2}
 								borderRadius={boxBorderRadius}
 								sx={{
-									border: 1,
+									backgroundColor: 'white',
+								}}
+							>
+								<Paper
+									elevation={8}
+									sx={{
+										backgroundColor: 'transparent',
+										borderRadius: boxBorderRadius,
+									}}
+								>
+									<Box
+										padding={boxPadding}
+										borderRadius={boxBorderRadius}
+										sx={{
+											border: 1,
+											backgroundColor: 'lightgray',
+										}}
+									>
+										<Box
+											sx={{
+												height: 26,
+											}}
+										>
+											<Typography variant="subtitle1" align="right" sx={{ color: 'gray' }}>
+												{inputHistory}
+											</Typography>
+										</Box>
+										<Box
+											sx={{
+												height: 50,
+											}}
+										>
+											<Typography variant="h3" align="right">
+												{input}
+											</Typography>
+										</Box>
+									</Box>
+								</Paper>
+							</Box>
+						</Paper>
+						<br />
+						<Paper
+							elevation={6}
+							sx={{
+								backgroundColor: 'transparent',
+								borderRadius: boxBorderRadius,
+							}}
+						>
+							<Box
+								borderRadius={boxBorderRadius}
+								padding={boxPadding}
+								sx={{
 									backgroundColor: 'lightgray',
 								}}
 							>
-								<Box
-									sx={{
-										height: 26,
-									}}
-								>
-									<Typography variant="subtitle1" align="right" sx={{ color: 'gray' }}>
-										{inputHistory}
-									</Typography>
-								</Box>
-								<Box
-									sx={{
-										height: 50,
-									}}
-								>
-									<Typography variant="h3" align="right">
-										{input}
-									</Typography>
-								</Box>
+								<Grid container spacing={3.8} columns={4} gridRow={5}>
+									<Grid item>
+										<Button
+											onClick={() => clearInputs()}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={buttonSx}
+										>
+											C
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addPercent()}
+											onKeyDown={(e) => {
+												console.log(e)
+												if (e.key === '%') {
+													console.log(true)
+													addPercent()
+												}
+											}}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={buttonSx}
+										>
+											%
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addOperator('\u00F7')}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontSize: 24 }}
+										>
+											&#247;
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => removeNumber()}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontWeight: 'bold' }}
+										>
+											&#8592;
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('7')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											7
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('8')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											8
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('9')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											9
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addOperator('\u00D7')}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontSize: 24 }}
+										>
+											&#215;
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('4')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											4
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('5')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											5
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('6')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											6
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addOperator('-')}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontSize: 24 }}
+										>
+											&#8722;
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('1')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											1
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('2')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											2
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('3')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											3
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addOperator('+')}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontSize: 24 }}
+										>
+											+
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addNumber('0')}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											0
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => addDecimal()}
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={buttonSx}
+										>
+											.
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											variant="contained"
+											size="large"
+											color="primary"
+											sx={{ ...buttonSx, fontSize: 15 }}
+										>
+											( )
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											onClick={() => calculateInput()}
+											variant="contained"
+											size="large"
+											color="secondary"
+											sx={{ ...buttonSx, fontSize: 24 }}
+										>
+											=
+										</Button>
+									</Grid>
+								</Grid>
 							</Box>
 						</Paper>
 					</Box>
 				</Paper>
-				<br />
-				<Paper
-					elevation={6}
-					sx={{
-						backgroundColor: 'transparent',
-						borderRadius: boxBorderRadius,
-					}}
-				>
-					<Box
-						borderRadius={boxBorderRadius}
-						padding={boxPadding}
-						sx={{
-							backgroundColor: 'lightgray',
-						}}
-					>
-						<Grid container spacing={3.8} columns={4} gridRow={5}>
-							<Grid item>
-								<Button
-									onClick={() => clearInputs()}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={buttonSx}
-								>
-									C
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addPercent()}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={buttonSx}
-								>
-									%
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addOperator('\u00F7')}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontSize: 24 }}
-								>
-									&#247;
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => removeNumber()}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontWeight: 'bold' }}
-								>
-									&#8592;
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('7')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									7
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('8')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									8
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('9')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									9
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addOperator('\u00D7')}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontSize: 24 }}
-								>
-									&#215;
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('4')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									4
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('5')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									5
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('6')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									6
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addOperator('-')}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontSize: 24 }}
-								>
-									&#8722;
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('1')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									1
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('2')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									2
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('3')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									3
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addOperator('+')}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontSize: 24 }}
-								>
-									+
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addNumber('0')}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									0
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => addDecimal()}
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={buttonSx}
-								>
-									.
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									variant="contained"
-									size="large"
-									color="primary"
-									sx={{ ...buttonSx, fontSize: 15 }}
-								>
-									( )
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									onClick={() => calculateInput()}
-									variant="contained"
-									size="large"
-									color="secondary"
-									sx={{ ...buttonSx, fontSize: 24 }}
-								>
-									=
-								</Button>
-							</Grid>
-						</Grid>
-					</Box>
-				</Paper>
-			</Box>
-		</Paper>
+			</Container>
+			<Button
+				variant="contained"
+				color="secondary"
+				sx={{
+					position: 'absolute',
+					float: 'right',
+					right: '5%',
+					bottom: '8%',
+				}}
+			>
+				History
+			</Button>
+		</>
 	)
 }

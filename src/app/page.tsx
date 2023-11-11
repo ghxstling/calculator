@@ -26,54 +26,27 @@ export default function Home() {
 	}, [])
 
 	return (
-		<>
-			<ThemeProvider theme={theme}>
-				<Typography
-					variant="h3"
-					sx={{
-						fontWeight: 'bold',
-						textAlign: 'center',
-						paddingTop: 5,
-					}}
-				>
-					Calculator
-				</Typography>
-				<Typography
-					variant="subtitle1"
-					sx={{
-						textAlign: 'center',
-						paddingBottom: 5,
-					}}
-				>
-					Made by <Link href="https://github.com/ghxstling">ghxstling</Link>
-				</Typography>
-				<Container
-					fixed
-					maxWidth="xs"
-					sx={{
-						position: 'relative',
-						float: 'center',
-					}}
-				>
-					{isLoading ? <Calculator /> : <Loading />}
-				</Container>
-				{isLoading ? (
-					<Button
-						variant="contained"
-						color="secondary"
-						sx={{
-							position: 'absolute',
-							float: 'right',
-							right: '5%',
-							bottom: '8%',
-						}}
-					>
-						History
-					</Button>
-				) : (
-					<></>
-				)}
-			</ThemeProvider>
-		</>
+		<ThemeProvider theme={theme}>
+			<Typography
+				variant="h3"
+				sx={{
+					fontWeight: 'bold',
+					textAlign: 'center',
+					paddingTop: 5,
+				}}
+			>
+				Calculator
+			</Typography>
+			<Typography
+				variant="subtitle1"
+				sx={{
+					textAlign: 'center',
+					paddingBottom: 5,
+				}}
+			>
+				Made by <Link href="https://github.com/ghxstling">ghxstling</Link>
+			</Typography>
+			{isLoading ? <Calculator /> : <Loading />}
+		</ThemeProvider>
 	)
 }
