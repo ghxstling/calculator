@@ -24,14 +24,12 @@ export default function Calculator() {
 	}
 
 	function addNumber(number: string) {
-		if (input === '0' || input === 'Error') {
+		if (input === '0' || input === 'Error' || isResult) {
+			setIsResult(false)
 			setInput(number)
 		} else {
 			if (isValidLength()) {
-				if (result !== '') {
-					setInput(number)
-					setResult('')
-				} else if (!isPercent()) {
+				if (!isPercent()) {
 					setInput((input) => input + number)
 				}
 			}
@@ -129,26 +127,41 @@ export default function Calculator() {
 
 	function calculateInput() {
 		try {
+			if (isResult) {
+				let operatorIndex: number = 0
+				for (let i = prevInput.length; i >= 0; i--) {
+					console.log(prevInput[i])
+					if (prevInput[i] in operators) {
+						operatorIndex = i
+					}
+				}
+				const newInput = result + prevInput.slice(operatorIndex)
+				console.log(newInput)
+				setInput(newInput)
+			}
 			setPrevInput(() => input)
 			const expression = convertInputText()
-			const result = math.evaluate(expression)
-			if (!isValidLength(result.toString())) {
+			const res = math.evaluate(expression)
+			if (!isValidLength(res.toString())) {
 				let newResult: any
 				if (hasDecimal) {
-					const decimalPlace = 9 - result.toString().split('.')[0].length
-					newResult = math.round(result, decimalPlace)
+					const decimalPlace = 9 - res.toString().split('.')[0].length
+					newResult = math.round(res, decimalPlace)
 				} else {
-					newResult = math.round(result)
+					newResult = math.round(res)
 				}
 				setInput(() => newResult.toString())
 				setResult(() => newResult.toString())
+				setIsResult(true)
 			} else {
-				setInput(() => result.toString())
-				setResult(() => result.toString())
+				setInput(() => res.toString())
+				setResult(() => res.toString())
+				setIsResult(true)
 			}
 		} catch (err) {
 			setPrevInput('')
 			setInput('Error')
+			setIsResult(false)
 		}
 	}
 	return (
