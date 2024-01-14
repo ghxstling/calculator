@@ -2,20 +2,21 @@
 
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material'
 import { boxPadding, boxBorderRadius, buttonSx } from '../css/styles'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { create, all } from 'mathjs'
 
 export default function Calculator() {
-	const [isLoading, setIsLoading] = useState(false)
 	const [input, setInput] = useState<string>('0')
-	const [inputHistory, setInputHistory] = useState<string>('')
-	const [isResult, setResult] = useState<boolean>(false)
+	const [prevInput, setPrevInput] = useState<string>('')
+	const [result, setResult] = useState<string>('')
+	const [isResult, setIsResult] = useState<boolean>(false)
 	const [hasDecimal, setHasDecimal] = useState<boolean>(false)
 
 	const config = {}
 	const math = create(all, config)
 	const operators = ['+', '-', '\u00F7', '\u00D7']
 	const brackets = ['(', ')']
+	const inputHistory = []
 
 	function isValidLength(result?: string) {
 		if (result) return result.length < 10
@@ -23,7 +24,8 @@ export default function Calculator() {
 	}
 
 	function addNumber(number: string) {
-		if (input === '0' || input === 'Error') {
+		if (input === '0' || input === 'Error' || isResult) {
+			setIsResult(false)
 			setInput(number)
 		} else {
 			if (isValidLength()) {
@@ -55,6 +57,9 @@ export default function Calculator() {
 	}
 
 	function addOperator(operator: string) {
+		if (isResult) {
+			setIsResult(false)
+		}
 		if (isNumber() || isPercent()) {
 			setInput((input) => input + operator)
 		} else if (isOperator()) {
@@ -72,6 +77,9 @@ export default function Calculator() {
 	}
 
 	function addPercent() {
+		if (isResult) {
+			setIsResult(false)
+		}
 		if (isNumber()) {
 			setInput((input) => input + '%')
 		}
@@ -82,6 +90,9 @@ export default function Calculator() {
 	}
 
 	function addDecimal() {
+		if (isResult) {
+			setIsResult(false)
+		}
 		if (isNumber() && !hasDecimal) {
 			setInput((input) => input + '.')
 			setHasDecimal(() => true)
@@ -94,51 +105,100 @@ export default function Calculator() {
 
 	function clearInputs() {
 		setInput('0')
-		setInputHistory('')
-		setResult(false)
+		setPrevInput('')
+		setResult('')
+		setIsResult(false)
 		setHasDecimal(false)
 	}
 
-	function convertInputText() {
+	function convertInputText(prev = false, reverse = false) {
 		let result = ''
-		for (const char of input) {
-			if (char === '\u00F7') {
-				result += '/'
-			} else if (char === '\u00D7') {
-				result += '*'
-			} else {
-				result += char
-			}
+		let chars = input
+		if (prev == true) chars = prevInput
+
+		for (const char of chars) {
+			if (char === '\u00F7') result += '/'
+			else if (char === '\u00D7') result += '*'
+			else result += char
 		}
+
+		if (reverse == true) {
+			let newResult = ''
+			for (const char of result) {
+				if (char === '/') newResult += '\u00F7'
+				else if (char === '*') newResult += '\u00D7'
+				else newResult += char
+			}
+			result = newResult
+		}
+
 		return result
 	}
 
 	function calculateInput() {
 		try {
-			setInputHistory(() => input)
-			const expression = convertInputText()
-			const result = math.evaluate(expression)
-			if (!isValidLength(result.toString())) {
-				const decimalPlace = 9 - result.toString().split('.')[0].length
-				const newResult = math.round(result, decimalPlace)
-				setInput(() => newResult.toString())
+			let expression: any
+			if (isResult) {
+				console.log('isResult ' + true)
+				expression = convertInputText(true)
+				let opIndex: number = 0
+				for (let i = expression.length - 1; i > -1; i--) {
+					if (
+						expression[i] === '+' ||
+						expression[i] === '-' ||
+						expression[i] === '/' ||
+						expression[i] === '*'
+					)
+						opIndex = i
+				}
+				const newPrevInput = result + convertInputText(true, true).slice(opIndex)
+
+				expression = ''
+				for (const char of newPrevInput) {
+					if (char === '\u00F7') expression += '/'
+					else if (char === '\u00D7') expression += '*'
+					else expression += char
+				}
+
+				setPrevInput(() => newPrevInput)
 			} else {
-				setInput(() => result.toString())
+				console.log('isResult ' + false)
+				expression = convertInputText()
+				setPrevInput(() => input)
 			}
-			setResult(true)
+			console.log('expression ' + expression)
+			const res = math.evaluate(expression)
+			if (!isValidLength(res.toString())) {
+				let newResult: any
+				if (hasDecimal) {
+					const decimalPlace = 9 - res.toString().split('.')[0].length
+					newResult = math.round(res, decimalPlace)
+				} else {
+					newResult = math.round(res)
+				}
+				setInput(() => newResult.toString())
+				setResult(() => newResult.toString())
+				setIsResult(true)
+			} else {
+				setInput(() => res.toString())
+				setResult(() => res.toString())
+				setIsResult(true)
+			}
 		} catch (err) {
-			setInputHistory('')
+			setPrevInput('')
 			setInput('Error')
+			setIsResult(false)
+			console.log(err)
 		}
 	}
 	return (
 		<>
 			<Container
-				fixed
 				maxWidth="xs"
 				sx={{
 					position: 'relative',
 					float: 'center',
+					width: '50%',
 				}}
 			>
 				<Paper
@@ -190,7 +250,7 @@ export default function Calculator() {
 											}}
 										>
 											<Typography variant="subtitle1" align="right" sx={{ color: 'gray' }}>
-												{inputHistory}
+												{prevInput}
 											</Typography>
 										</Box>
 										<Box
