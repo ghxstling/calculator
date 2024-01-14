@@ -111,36 +111,62 @@ export default function Calculator() {
 		setHasDecimal(false)
 	}
 
-	function convertInputText() {
+	function convertInputText(prev = false, reverse = false) {
 		let result = ''
-		for (const char of input) {
-			if (char === '\u00F7') {
-				result += '/'
-			} else if (char === '\u00D7') {
-				result += '*'
-			} else {
-				result += char
-			}
+		let chars = input
+		if (prev == true) chars = prevInput
+
+		for (const char of chars) {
+			if (char === '\u00F7') result += '/'
+			else if (char === '\u00D7') result += '*'
+			else result += char
 		}
+
+		if (reverse == true) {
+			let newResult = ''
+			for (const char of result) {
+				if (char === '/') newResult += '\u00F7'
+				else if (char === '*') newResult += '\u00D7'
+				else newResult += char
+			}
+			result = newResult
+		}
+
 		return result
 	}
 
 	function calculateInput() {
 		try {
+			let expression: any
 			if (isResult) {
-				let operatorIndex: number = 0
-				for (let i = prevInput.length; i >= 0; i--) {
-					console.log(prevInput[i])
-					if (prevInput[i] in operators) {
-						operatorIndex = i
-					}
+				console.log('isResult ' + true)
+				expression = convertInputText(true)
+				let opIndex: number = 0
+				for (let i = expression.length - 1; i > -1; i--) {
+					if (
+						expression[i] === '+' ||
+						expression[i] === '-' ||
+						expression[i] === '/' ||
+						expression[i] === '*'
+					)
+						opIndex = i
 				}
-				const newInput = result + prevInput.slice(operatorIndex)
-				console.log(newInput)
-				setInput(newInput)
+				const newPrevInput = result + convertInputText(true, true).slice(opIndex)
+
+				expression = ''
+				for (const char of newPrevInput) {
+					if (char === '\u00F7') expression += '/'
+					else if (char === '\u00D7') expression += '*'
+					else expression += char
+				}
+
+				setPrevInput(() => newPrevInput)
+			} else {
+				console.log('isResult ' + false)
+				expression = convertInputText()
+				setPrevInput(() => input)
 			}
-			setPrevInput(() => input)
-			const expression = convertInputText()
+			console.log('expression ' + expression)
 			const res = math.evaluate(expression)
 			if (!isValidLength(res.toString())) {
 				let newResult: any
@@ -162,6 +188,7 @@ export default function Calculator() {
 			setPrevInput('')
 			setInput('Error')
 			setIsResult(false)
+			console.log(err)
 		}
 	}
 	return (
