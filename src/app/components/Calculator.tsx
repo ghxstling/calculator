@@ -4,7 +4,6 @@ import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material'
 import { boxPadding, boxBorderRadius, buttonSx } from '../css/styles'
 import { useState } from 'react'
 import { create, all } from 'mathjs'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export default function Calculator() {
 	const [input, setInput] = useState<string>('0')
@@ -527,7 +526,6 @@ export default function Calculator() {
 			>
 				History
 			</Button>
-			<SpeedInsights />
 		</>
 	)
 }
