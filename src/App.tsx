@@ -1,15 +1,9 @@
-'use client'
-
 import { ThemeProvider, Typography, createTheme } from '@mui/material'
 import { grey, red } from '@mui/material/colors'
-import Link from 'next/link'
 import Calculator from './components/Calculator'
-import Loading from './loading'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-	const [isLoading, setIsLoading] = useState(false)
-
 	const theme = createTheme({
 		palette: {
 			primary: {
@@ -20,10 +14,6 @@ export default function Home() {
 			},
 		},
 	})
-
-	useEffect(() => {
-		setIsLoading(true)
-	}, [])
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -44,9 +34,9 @@ export default function Home() {
 					paddingBottom: 5,
 				}}
 			>
-				Made by <Link href="https://github.com/ghxstling">ghxstling</Link>
+				Made by <link href="https://github.com/ghxstling">ghxstling</link>
 			</Typography>
-			{isLoading ? <Calculator /> : <Loading />}
+			<Calculator />
 		</ThemeProvider>
 	)
 }

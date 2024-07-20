@@ -1,5 +1,3 @@
-'use client'
-
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material'
 import { boxPadding, boxBorderRadius, buttonSx } from '../css/styles'
 import { useState } from 'react'
