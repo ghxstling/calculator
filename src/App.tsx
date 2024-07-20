@@ -1,7 +1,6 @@
-import { ThemeProvider, Typography, createTheme } from '@mui/material'
+import { Link, ThemeProvider, Typography, createTheme } from '@mui/material'
 import { grey, red } from '@mui/material/colors'
 import Calculator from './components/Calculator'
-import { useEffect, useState } from 'react'
 
 export default function Home() {
 	const theme = createTheme({
@@ -34,7 +33,10 @@ export default function Home() {
 					paddingBottom: 5,
 				}}
 			>
-				Made by <link href="https://github.com/ghxstling">ghxstling</link>
+				Made by{' '}
+				<Link href="https://github.com/ghxstling" color={'inherit'}>
+					ghxstling
+				</Link>
 			</Typography>
 			<Calculator />
 		</ThemeProvider>
